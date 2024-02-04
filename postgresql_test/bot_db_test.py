@@ -5,6 +5,7 @@ from aiogram import Bot, Dispatcher
 
 from config_data.config import Config, load_config
 import handlers_db
+from db import BaseModel, create_new_async_engine, get_session_maker, proceed_schemas
 
 logger = logging.getLogger(__name__)
 
