@@ -12,4 +12,8 @@ async def process_start_cmd(message: Message) -> None:
     )
 
 
-
+@router.message(Command(commands='save'))
+async def process_save_cmd(message: Message) -> None:
+    await message.answer(
+        text='Send data'
+    )
