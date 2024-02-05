@@ -22,7 +22,7 @@ class TgBot:
 @dataclass
 class Config:
     tg_bot: TgBot
-    # db: DatabaseConfig | None = None
+    db: DatabaseConfig | None = None
 
 
 # Func for loading all necessary config
