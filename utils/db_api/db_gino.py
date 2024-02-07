@@ -1,8 +1,12 @@
 import sqlalchemy as sa
+import datetime
 
 from gino import Gino
 from typing import List
 from sqlalchemy import Column, BigInteger, String
+from aiogram import Dispatcher
+
+from config_data import config_db
 
 db = Gino()
 
@@ -20,3 +24,20 @@ class BaseModel(db.Model):
         }
         values_str = " ".join(f"{name}={value!r}" for name, value in values.items())
         return f"<{model} {values_str}>"
+
+
+class TimedBaseModel(BaseModel):
+    __abstract__ = True
+
+    created_at = db.Column(db.DateTime(True), server_default=db.func.now())
+    updated_at = db.Column(
+        db.DateTime(True),
+        default=datetime.datetime.utcnow,
+        onupdate=datetime.datetime.utcnow,
+        server_default=db.func.now(),
+    )
+
+
+async def on_startup(dispatcher: Dispatcher):
+    print('Установка связи с PostgreSQL')
+    await db.set_bind(config_db.POSTGRES_URL)
