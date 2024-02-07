@@ -1,3 +1,5 @@
 environs~=9.5.0
 aiogram~=3.2.0
 SQLAlchemy~=2.0.25
+python-dotenv~=1.0.1
+gino~=1.0.1
