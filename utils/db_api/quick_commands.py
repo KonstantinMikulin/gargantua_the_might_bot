@@ -21,3 +21,9 @@ async def count_users():
     count = db.func.count()(User.user_id).gino.scalar()
 
     return count
+
+
+async def select_user(user_id):
+    user = await User.query.where(User.user_id == user_id).gino.first()
+
+    return user
