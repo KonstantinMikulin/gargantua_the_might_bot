@@ -1,5 +1,6 @@
 from asyncpg import UniqueViolationError
 from utils.db_api.schemas.user import User
+from utils.db_api.db_gino import db
 
 
 async def add_user(user_id: int, name: str, update_name: str = None):
@@ -12,4 +13,11 @@ async def add_user(user_id: int, name: str, update_name: str = None):
 
 async def select_all_users():
     users = await User.query.gino.all()
+
     return users
+
+
+async def count_users():
+    count = db.func.count()(User.user_id).gino.scalar()
+
+    return count
