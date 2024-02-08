@@ -9,4 +9,4 @@ ip = os.getenv('ip')
 PG_USER = str(os.getenv('DB_USER'))
 PG_PASSWORD = str(os.getenv('DB_PASSWORD'))
 DATABASE = str(os.getenv('DATABASE'))
-POSTGRES_URL = f'postgresql://{PG_USER}:{PG_PASSWORD}@{ip}/{DATABASE}'
+POSTGRES_URI = f'postgresql://{PG_USER}:{PG_PASSWORD}@{ip}/{DATABASE}'
