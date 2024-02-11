@@ -65,3 +65,20 @@ class _UsersDB:
                 "User deleted. db='%s', user_id='%d'",
                 self.__table_name__, user_id
             )
+
+    async def get_user_record(self, *, user_id: int) -> UsersModel | None:
+        async with self.connect.transaction():
+            cursor = await self.connect.cursor('''
+                SELECT id,
+                       user_id,
+                       created,
+                       language,
+                       role,
+                       is_alive,
+                       is_blocked
+                FROM users
+                WHERE users.user_id = $1
+            ''', user_id
+                                               )
+            data = await cursor.fetchrow()
+            return UsersModel(**data) if data else None

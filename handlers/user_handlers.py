@@ -8,12 +8,14 @@ from lexicon.lexicon import LEXICON_RU, LEXICON_FSM
 from keyboards.keyboards import inline_gender_keyboard
 from fsm.fsm_profile import FSMProfile, user_dict
 
+from infrastructure.database.database.db import DB
+
 router = Router()
 
 
 # command for starting bot
 @router.message(CommandStart(), StateFilter(default_state))
-async def process_start_cmd(message: Message) -> None:
+async def process_start_cmd(message: Message, db: DB) -> None:
     await message.answer(text=LEXICON_RU[message.text])
 
 
