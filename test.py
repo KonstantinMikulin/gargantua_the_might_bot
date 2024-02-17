@@ -46,7 +46,7 @@ async def no_click_process(callback: CallbackQuery,
 
 # Это геттер
 async def get_username(event_from_user: User, **kwargs):
-    return {'username': event_from_user.username}
+    return {'username': event_from_user.username, 'first': event_from_user.first_name, 'last': event_from_user.last_name}
 
 
 start_dialog = Dialog(
@@ -57,8 +57,8 @@ start_dialog = Dialog(
                  'библиотеки <code>aiogram_dialog</code>?'
         ),
         Row(
-            Button(text=Const('✅ Да'), id='yes', on_click=yes_click_process),
-            Button(text=Const('✖️ Нет'), id='no', on_click=no_click_process),
+            Button(text=Format('Да, {first}'), id='yes', on_click=yes_click_process),
+            Button(text=Format('Нет, {last}'), id='no', on_click=no_click_process),
         ),
         getter=get_username,
         state=StartSG.start,
