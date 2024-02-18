@@ -73,9 +73,13 @@ class _UsersDB:
                        user_id,
                        created,
                        language,
-                       role,
                        is_alive,
-                       is_blocked
+                       is_blocked,
+                       tz_region,
+                       tz_offset,
+                       longitude,
+                       latitude,
+                       is_admin
                 FROM users
                 WHERE users.user_id = $1
             ''', user_id

@@ -34,7 +34,7 @@ class RedisConfig:
 class Config:
     tg_bot: TgBotConfig
     pg: PostgresConfig
-    # redis: RedisConfig
+    redis: RedisConfig
 
 
 def load_config(path: str | None = None) -> Config:
@@ -54,13 +54,13 @@ def load_config(path: str | None = None) -> Config:
             username=env('POSTGRES_USER'),
             password=env('POSTGRES_PASSWORD')
         ),
-        # redis=RedisConfig(
-        #     database=env.int('REDIS_DATABASE'),
-        #     host=env('REDIS_HOST'),
-        #     port=env.int('REDIS_PORT'),
-        #     username=env('REDIS_USERNAME'),
-        #     password=env('REDIS_PASSWORD'),
-        #     state_ttl=env('REDIS_TTL_STATE'),
-        #     data_ttl=env('REDIS_TTL_DATA')
-        # ),
+        redis=RedisConfig(
+            database=env.int('REDIS_DATABASE'),
+            host=env('REDIS_HOST'),
+            port=env.int('REDIS_PORT'),
+            username=env('REDIS_USERNAME'),
+            password=env('REDIS_PASSWORD'),
+            state_ttl=env('REDIS_TTL_STATE'),
+            data_ttl=env('REDIS_TTL_DATA')
+        ),
     )
