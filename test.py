@@ -5,7 +5,7 @@ from aiogram.fsm.state import State, StatesGroup
 from aiogram.types import CallbackQuery, Message, User
 from aiogram_dialog import Dialog, DialogManager, StartMode, Window, setup_dialogs
 from aiogram_dialog.widgets.kbd import Button, Row
-from aiogram_dialog.widgets.text import Const, Format
+from aiogram_dialog.widgets.text import Const, Format, List, Multi, Case
 from environs import Env
 
 env = Env()
@@ -49,19 +49,22 @@ async def get_username(event_from_user: User, **kwargs):
     return {'username': event_from_user.username, 'first': event_from_user.first_name, 'last': event_from_user.last_name}
 
 
+async def get_items(**kwargs):
+    return {'items': (
+        (1, 'Пункт 1'),
+        (2, 'Пункт 2'),
+        (3, 'Пункт 3'),
+    )}
+
+
 start_dialog = Dialog(
     Window(
-        Format(text='Привет, <b>{username}</b>!\n'),
-        Const(
-            text='Пробовали ли вы уже писать ботов с использованием '
-                 'библиотеки <code>aiogram_dialog</code>?'
+        Case(
+            Const('1. Пункт 1'),
+            Const('2. Пункт 1'),
+            Const('3. Пункт 1'),
+            state=StartSG.start,
         ),
-        Row(
-            Button(text=Format('Да, {first}'), id='yes', on_click=yes_click_process),
-            Button(text=Format('Нет, {last}'), id='no', on_click=no_click_process),
-        ),
-        getter=get_username,
-        state=StartSG.start,
     ),
 )
 
