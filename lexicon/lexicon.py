@@ -14,6 +14,7 @@ LEXICON_RU: dict[str, str] = {
 }
 
 LEXICON_COMMANDS_RU: dict[str, str] = {
+    '/start': 'Starting bot',
     '/help': 'How this bot works',
     '/profile': 'Setup you profile',
 }
