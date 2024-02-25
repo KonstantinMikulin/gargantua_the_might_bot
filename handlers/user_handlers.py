@@ -6,9 +6,12 @@ from aiogram.types import Message, CallbackQuery
 from aiogram.fsm.state import default_state
 from aiogram.fsm.context import FSMContext
 
+from aiogram_dialog import DialogManager, StartMode
+
 from lexicon.lexicon import LEXICON_RU, LEXICON_FSM
 from keyboards.keyboards import inline_gender_keyboard
 from fsm.fsm_profile import FSMProfile, user_dict
+from states.states import StartSG
 
 from infrastructure.database.database.db import DB
 from infrastructure.database.models.users import UsersModel
@@ -20,8 +23,9 @@ router = Router()
 # command for starting bot
 @router.message(CommandStart(), StateFilter(default_state))
 # async def process_start_cmd(message: Message, db: DB) -> None:
-async def process_start_cmd(message: Message) -> None:
-    await message.answer(text=LEXICON_RU[message.text])
+async def process_start_cmd(message: Message, dialog_manager: DialogManager) -> None:
+    await dialog_manager.start(state=StartSG.start, mode=StartMode.RESET_STACK)
+    
     # await db.users.add(user_id=message.from_user.id, language=message.from_user.language_code)
     # user_record: UsersModel = await db.users.get_user_record(user_id=message.from_user.id)
     # logger.debug('my_user_record %s', user_record)

@@ -3,6 +3,8 @@ import logging
 
 from aiogram import Bot, Dispatcher
 
+from aiogram_dialog import setup_dialogs
+
 from config_data.config import Config, load_config
 from handlers import admin_handlers, user_handlers, other_handlers
 from keyboards.set_menu import set_main_menu
@@ -11,6 +13,7 @@ from middlewares.database import DataBaseMiddleware
 from infrastructure.database.utils.create_tables import create_tables
 from infrastructure.database.utils.connect_to_redis import get_redis_storage
 from aiogram.fsm.storage.redis import Redis, RedisStorage
+from dialogs.dialogs import start_dialog
 
 logger = logging.getLogger(__name__)
 
@@ -51,11 +54,13 @@ async def main():
     dp.include_router(admin_handlers.router)
     dp.include_router(user_handlers.router)
     dp.include_router(other_handlers.router)
+    dp.include_router(start_dialog)
 
     # dp.update.middleware(DataBaseMiddleware())
 
     await set_main_menu(bot)
     await bot.delete_webhook(drop_pending_updates=True)
+    await setup_dialogs(dp)
     # await dp.start_polling(bot, _db_pool=db_pool)
     await dp.start_polling(bot)
 
