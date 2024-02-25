@@ -21,40 +21,43 @@ async def main():
                                '[%(asctime)s] - %(name)s - %(message)s')
     logger.info('Starting bot')
     config: Config = load_config()
-    storage: RedisStorage = get_redis_storage(
-        db=config.redis.database,
-        host=config.redis.host,
-        port=config.redis.port,
-        username=config.redis.username,
-        password=config.redis.password
-    )
+    # storage: RedisStorage = get_redis_storage(
+    #     db=config.redis.database,
+    #     host=config.redis.host,
+    #     port=config.redis.port,
+    #     username=config.redis.username,
+    #     password=config.redis.password
+    # )
+    
     bot = Bot(token=config.tg_bot.token)
-    dp = Dispatcher(storage=storage)
+    # dp = Dispatcher(storage=storage)
+    dp = Dispatcher()
 
-    db_pool = await get_pg_pool(
-        db_name=config.pg.db_name,
-        host=config.pg.host,
-        port=config.pg.port,
-        user=config.pg.username,
-        password=config.pg.password
-    )
+    # db_pool = await get_pg_pool(
+    #     db_name=config.pg.db_name,
+    #     host=config.pg.host,
+    #     port=config.pg.port,
+    #     user=config.pg.username,
+    #     password=config.pg.password
+    # )
 
-    async with db_pool.acquire() as connect:
-        try:
-            await create_tables(connect)
-        except Exception as e:
-            logger.exception(e)
-            await db_pool.close()
+    # async with db_pool.acquire() as connect:
+    #     try:
+    #         await create_tables(connect)
+    #     except Exception as e:
+    #         logger.exception(e)
+    #         await db_pool.close()
 
     dp.include_router(admin_handlers.router)
     dp.include_router(user_handlers.router)
     dp.include_router(other_handlers.router)
 
-    dp.update.middleware(DataBaseMiddleware())
+    # dp.update.middleware(DataBaseMiddleware())
 
     await set_main_menu(bot)
     await bot.delete_webhook(drop_pending_updates=True)
-    await dp.start_polling(bot, _db_pool=db_pool)
+    # await dp.start_polling(bot, _db_pool=db_pool)
+    await dp.start_polling(bot)
 
 
 if __name__ == '__main__':

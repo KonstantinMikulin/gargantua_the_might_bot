@@ -19,11 +19,12 @@ router = Router()
 
 # command for starting bot
 @router.message(CommandStart(), StateFilter(default_state))
-async def process_start_cmd(message: Message, db: DB) -> None:
+# async def process_start_cmd(message: Message, db: DB) -> None:
+async def process_start_cmd(message: Message) -> None:
     await message.answer(text=LEXICON_RU[message.text])
-    await db.users.add(user_id=message.from_user.id, language=message.from_user.language_code)
-    user_record: UsersModel = await db.users.get_user_record(user_id=message.from_user.id)
-    logger.debug('my_user_record %s', user_record)
+    # await db.users.add(user_id=message.from_user.id, language=message.from_user.language_code)
+    # user_record: UsersModel = await db.users.get_user_record(user_id=message.from_user.id)
+    # logger.debug('my_user_record %s', user_record)
 
 
 @router.message(Command(commands='help'), StateFilter(default_state))
