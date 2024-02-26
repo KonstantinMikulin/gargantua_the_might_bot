@@ -55,12 +55,12 @@ async def main():
     dp.include_router(user_handlers.router)
     dp.include_router(other_handlers.router)
     dp.include_router(start_dialog)
+    setup_dialogs(dp)
 
     # dp.update.middleware(DataBaseMiddleware())
 
     await set_main_menu(bot)
     await bot.delete_webhook(drop_pending_updates=True)
-    await setup_dialogs(dp)
     # await dp.start_polling(bot, _db_pool=db_pool)
     await dp.start_polling(bot)
 
